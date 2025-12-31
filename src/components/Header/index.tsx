@@ -6,9 +6,7 @@ import { paraReal } from '../Produto'
 import { RootState } from '../../store'
 
 const Header = () => {
-  const itensNoCarrinho = useSelector(
-    (state: RootState) => state.cart.itens
-  )
+  const itensNoCarrinho = useSelector((state: RootState) => state.cart.itens)
 
   const valorTotal = itensNoCarrinho.reduce((acc, item) => {
     acc += item.preco
