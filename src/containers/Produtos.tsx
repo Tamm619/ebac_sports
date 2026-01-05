@@ -13,7 +13,7 @@ const ProdutosComponent = () => {
   const { data: produtos = [], isLoading } = useGetProdutosQuery()
 
   // Redux state
-  const favoritos = useSelector((state: RootState) => state.cart.itens)
+  const favoritos = useSelector((state: RootState) => state.carrinho.itens)
 
   const produtoEstaNosFavoritos = (produto: any) => {
     return favoritos.some((f) => f.id === produto.id)
