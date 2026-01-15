@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import Produto from '../components/Produto'
 import * as S from './styles'
+import { adicionarFavorito, removerFavorito } from '../store/favoritesSlice'
 
 import { useGetProdutosQuery } from '../store/api'
 import { adicionarAoCarrinho } from '../store/cartSlice'
@@ -13,10 +14,18 @@ const ProdutosComponent = () => {
   const { data: produtos = [], isLoading } = useGetProdutosQuery()
 
   // Redux state
-  const favoritos = useSelector((state: RootState) => state.carrinho.itens)
+  const favoritos = useSelector((state: RootState) => state.favoritos.itens)
 
   const produtoEstaNosFavoritos = (produto: any) => {
     return favoritos.some((f) => f.id === produto.id)
+  }
+
+  const favoritarProduto = (produto: any) => {
+    if (produtoEstaNosFavoritos(produto)) {
+      dispatch(removerFavorito(produto.id))
+    } else {
+      dispatch(adicionarFavorito(produto))
+    }
   }
 
   if (isLoading) {
@@ -30,7 +39,7 @@ const ProdutosComponent = () => {
           key={produto.id}
           produto={produto}
           estaNosFavoritos={produtoEstaNosFavoritos(produto)}
-          favoritar={() => console.log('favoritar')}
+          favoritar={() => favoritarProduto(produto)}
           aoComprar={() => dispatch(adicionarAoCarrinho(produto))}
         />
       ))}
